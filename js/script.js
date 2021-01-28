@@ -63,11 +63,7 @@ getPassword.addEventListener('keyup', function () {
 
 //Login submit btn validation;
 
-var submitBtn = document.getElementById('submit');
-submitBtn.addEventListener('click', function () {
-
-
-
+function loginSubmit() {
     var getUsername = document.getElementById('username').value;
     var getPassword = document.getElementById('password').value;
     var lowercase = /[a-z]/;
@@ -110,8 +106,7 @@ submitBtn.addEventListener('click', function () {
         document.getElementById('login-area').style.display = "none";
         document.getElementById('transaction-area').style.display = "block";
     }
-
-});
+}
 
 // Show Password;
 function showPassword() {
@@ -123,35 +118,24 @@ function showPassword() {
     }
 }
 
-// Deposite Event Handler;
-document.getElementById('submitDepo').addEventListener('click', function () {
-    var depositeAmount = document.getElementById('depositeAmount').value;
-    var depositeNumber = Number(depositeAmount);
-
-    valueUpdate("currentDeposite", depositeNumber);
-    valueUpdate("currentBalance", depositeNumber);
-
-    depositeAmount = document.getElementById('depositeAmount').value = "";
-
-});
-
-// Withdraw Event Handler;
-document.getElementById('submitWithdraw').addEventListener('click', function () {
-    var widthdrawAmount = document.getElementById('wthdrawAmount').value;
-    var withdrawNumber = Number(widthdrawAmount);
-
-    valueUpdate("currentWithdraw", withdrawNumber);
-    valueUpdate("currentBalance", -1 * withdrawNumber);
-
-    document.getElementById('wthdrawAmount').value = "";
-
-});
-
-
-// Event Handler Using Function;
-function valueUpdate(id, depositeNumber) {
-    var currentBalance = document.getElementById(id).innerText;
-    var currentBalanceNumber = parseFloat(currentBalance);
-    var totalBalance = depositeNumber + currentBalanceNumber;
-    document.getElementById(id).innerText = totalBalance;
-}
+// deposit, withdraw, mainBalance, id, sign update function
+function valueUpdate(addAmountId, inputValueId, mainBalanceId, signUpdate) {
+    // Add Deposit and Withdraw Amount
+    const addAmount = document.getElementById(addAmountId).innerText;
+    const addAmountNumber = parseFloat(addAmount);
+    const inputValue = document.getElementById(inputValueId).value;
+    const inputValNumber = parseFloat(inputValue)
+    const addTotalAmount = addAmountNumber + inputValNumber;
+    document.getElementById(addAmountId).innerText = addTotalAmount;
+    // Add Main Balance Amount
+    const mainBalance = document.getElementById(mainBalanceId).innerText;
+    const mainBalNumber = parseFloat(mainBalance)
+    // Main Balance update condition
+    if (signUpdate === true) {
+      document.getElementById(mainBalanceId).innerText = mainBalNumber + inputValNumber;
+    }else if(signUpdate === false){
+      document.getElementById(mainBalanceId).innerText = mainBalNumber - inputValNumber;
+    }
+    // Input value empty
+    document.getElementById(inputValueId).value = ""
+  }
